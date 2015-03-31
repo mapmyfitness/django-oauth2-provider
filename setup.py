@@ -2,10 +2,19 @@
 
 from setuptools import setup, find_packages
 import provider
+import sys
+
+if 'sdist' in sys.argv:
+    import mmf_release_tools
+    version = mmf_release_tools.generate_release_version(provider.__version__, __file__)
+    mmf_release_tools.write_release_version(version)
+else:
+    with open("RELEASE-VERSION", "r") as f:
+        version = f.readlines()[0].strip()
 
 setup(
     name='django-oauth2-provider',
-    version=provider.__version__,
+    version=version,
     description='Provide OAuth2 access to your app',
     long_description=open('README.rst').read(),
     author='Alen Mujezinovic',
